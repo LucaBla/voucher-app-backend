@@ -6,6 +6,11 @@ class VouchersController < ApplicationController
     render json: @vouchers
   end
 
+  def show
+    @voucher = current_devise_api_user.vouchers.find(params[:id])
+    render json: @voucher
+  end
+
   def create
     @voucher = current_devise_api_user.vouchers.new(voucher_params)
 
