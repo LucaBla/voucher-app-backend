@@ -21,6 +21,16 @@ class VouchersController < ApplicationController
     end
   end
 
+  def update
+    @voucher = current_devise_api_user.vouchers.find(params[:id])
+    
+    if @voucher.update(voucher_params)
+      render json: @voucher
+    else
+      render json: @voucher.errors, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def voucher_params
