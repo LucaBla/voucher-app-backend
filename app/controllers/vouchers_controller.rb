@@ -8,7 +8,7 @@ class VouchersController < ApplicationController
 
   def show
     @voucher = current_devise_api_user.vouchers.find(params[:id])
-    render json: @voucher
+    render json: @voucher, include: [:unit, business: { except: :email }]
   end
 
   def create
