@@ -3,7 +3,8 @@ class VouchersController < ApplicationController
 
   def index
     @vouchers = current_devise_api_user.vouchers.all
-    render json: @vouchers
+    @vouchers = @vouchers.where(status: params[:status]) if params[:status].present?
+    render json: @vouchers, include: [:unit]
   end
 
   def show
@@ -29,6 +30,13 @@ class VouchersController < ApplicationController
     else
       render json: @voucher.errors, status: :unprocessable_entity
     end
+  end
+
+  def destroy
+    @voucher = current_devise_api_user.vouchers.find(params[:id])
+
+    @voucher.destroy
+    head :no_content
   end
 
   private
