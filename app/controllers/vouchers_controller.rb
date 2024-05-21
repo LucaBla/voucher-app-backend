@@ -3,7 +3,31 @@ class VouchersController < ApplicationController
 
   def index
     @vouchers = current_devise_api_user.vouchers.all
-    @vouchers = @vouchers.where(status: params[:status]) if params[:status].present?
+    if params[:status].present?
+      @vouchers = @vouchers.where(status: params[:status]) 
+    end
+    if params[:min_value].present?
+      @vouchers = @vouchers.where('value >= ?', params[:min_value]) 
+    end
+    if params[:max_value].present?
+      @vouchers = @vouchers.where('value <= ?', params[:max_value]) 
+    end
+    if params[:unit_id].present?
+      @vouchers = @vouchers.where(unit_id: params[:unit_id]) 
+    end
+    if params[:created_after].present?
+      @vouchers = @vouchers.where('created_at >= ?', params[:created_after])
+    end
+    if params[:created_until].present?
+      @vouchers = @vouchers.where('created_at <= ?', params[:created_until])
+    end
+    if params[:expires_after].present?
+      @vouchers = @vouchers.where('expiry_date > ?', params[:expires_after])
+    end
+    if params[:expires_until].present?
+      @vouchers = @vouchers.where('expiry_date <= ?', params[:expires_until])
+    end
+
     render json: @vouchers, include: [:unit]
   end
 
