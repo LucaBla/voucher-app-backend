@@ -6,4 +6,5 @@ Rails.application.routes.draw do
   # root "articles#index"
   resources :vouchers, only: [:index, :create, :show, :update, :destroy]
   resources :units, only: [:index, :create]
+  resources :businesses, only: [:show, :update]
 end
