@@ -27,6 +27,13 @@ class VouchersController < ApplicationController
     if params[:expires_until].present?
       @vouchers = @vouchers.where('expiry_date <= ?', params[:expires_until])
     end
+    if params[:has_expiry_date].present?
+      if params[:has_expiry_date] == 'true'
+        @vouchers = @vouchers.where.not(expiry_date: nil)
+      elsif params[:has_expiry_date] == 'false'
+        @vouchers = @vouchers.where(expiry_date: nil)
+      end
+    end
 
     render json: @vouchers, include: [:unit]
   end
