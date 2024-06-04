@@ -16,6 +16,13 @@ class UnitsController < ApplicationController
     end
   end
 
+  def destroy
+    @unit = current_devise_api_user.units.find(params[:id])
+
+    @unit.destroy
+    head :no_content
+  end
+
   private
 
   def unit_params
