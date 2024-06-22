@@ -1,5 +1,5 @@
 class VouchersController < ApplicationController
-  before_action :authenticate_devise_api_token!
+  before_action :authenticate_devise_api_token!, except: :show
 
   def index
     @vouchers = current_devise_api_user.vouchers.all
@@ -39,8 +39,8 @@ class VouchersController < ApplicationController
   end
 
   def show
-    @voucher = current_devise_api_user.vouchers.find(params[:id])
-    render json: @voucher, include: [:unit, business: { except: :email }]
+    @voucher = Voucher.find(params[:id])
+    render json: @voucher, include: [:unit, :business]
   end
 
   def create
@@ -68,6 +68,16 @@ class VouchersController < ApplicationController
 
     @voucher.destroy
     head :no_content
+  end
+
+  def bulk_destroy
+    voucher_ids = params[:voucher_ids]
+    if voucher_ids.present?
+      current_devise_api_user.vouchers.where(id: voucher_ids).destroy_all
+      head :no_content
+    else
+      render json: { error: 'No voucher IDs provided' }, status: :unprocessable_entity
+    end
   end
 
   private
