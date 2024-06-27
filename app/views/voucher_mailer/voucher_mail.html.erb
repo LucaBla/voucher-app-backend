@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f9f9f9;
+      border: 1px solid #ccc;
+    }
+    .link {
+      color: #007bff;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Your Voucher</h2>
+    <p>Hello,</p>
+    <p>Your voucher details can be viewed and tracked using the link below:</p>
+    <p><a class="link" href="<%= "#{@url}vouchers/#{@voucher.id}" %>">View Voucher</a></p>
+    <p>If you have any questions, feel free to contact us.</p>
+    <p>Thank you!</p>
+  </div>
+</body>
+</html>

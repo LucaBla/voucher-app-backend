@@ -50,3 +50,5 @@ end
 gem "devise", "~> 4.9"
 
 gem 'devise-api', github: 'nejdetkadir/devise-api', branch: 'main'
+
+gem 'dotenv-rails', groups: [:development, :test]

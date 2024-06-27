@@ -8,6 +8,9 @@ Rails.application.routes.draw do
     collection do
       delete 'bulk_destroy'
     end
+    member do
+      post 'email_voucher'
+    end
   end
   resources :units, only: [:index, :create, :destroy]
   resources :businesses, only: [:show, :update]

@@ -63,6 +63,18 @@ class VouchersController < ApplicationController
     end
   end
 
+  def email_voucher
+    @voucher = current_devise_api_user.vouchers.find(params[:id])
+    @recipient_email = params[:email]
+
+    if @recipient_email.present?
+      VoucherMailer.voucher_mail(@recipient_email, @voucher).deliver_now
+      render json: { message: 'Voucher email sent successfully.' }, status: :ok
+    else
+      render json: { error: 'Recipient email is required.' }, status: :unprocessable_entity
+    end
+  end
+
   def destroy
     @voucher = current_devise_api_user.vouchers.find(params[:id])
 
